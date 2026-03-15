@@ -126,24 +126,33 @@
             .search-form { grid-template-columns: 1fr; }
         }
 
-        /* ── Mobile hamburger ── */
-        .hamburger { display: none; flex-direction: column; justify-content: space-between; width: 26px; height: 20px; cursor: pointer; z-index: 1100; }
-        .hamburger span { display: block; height: 2px; width: 100%; background: #fff; border-radius: 2px; transition: all 0.3s ease; }
-        .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
-        .hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
-        .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
-        .slide-nav { position: fixed; top: 0; right: -100%; width: 320px; max-width: 100vw; height: 100vh; background: var(--dark); z-index: 1050; padding: 6rem 2.5rem 3rem; transition: right 0.4s cubic-bezier(0.4,0,0.2,1); overflow-y: auto; }
-        .slide-nav.open { right: 0; }
-        .slide-nav ul { list-style: none; padding: 0; }
-        .slide-nav ul li { border-bottom: 1px solid rgba(255,255,255,0.08); }
-        .slide-nav ul a { display: block; color: rgba(255,255,255,0.85); font-size: 1.1rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 1rem 0; transition: var(--transition); }
-        .slide-nav ul a:hover, .slide-nav ul a.active { color: var(--gold); }
-        .slide-nav-contact { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid rgba(201,169,110,0.3); }
-        .slide-nav-contact p { color: rgba(255,255,255,0.55); font-size: 0.9rem; margin-bottom: 0.5rem; }
-        .slide-nav-contact a { color: var(--gold); font-size: 0.9rem; }
-        .backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1040; }
+        /* ── Nav icon (hamburger) — always visible, hides desktop nav on mobile ── */
+        .nav-icon { display: flex; flex-direction: column; justify-content: space-between; width: 26px; height: 20px; cursor: pointer; z-index: 1100; flex-shrink: 0; }
+        .nav-icon span { display: block; height: 2px; width: 100%; background: #fff; border-radius: 9px; transition: all 0.25s ease-in-out; transform-origin: left center; }
+        .nav-icon.open span:nth-child(1) { transform: rotate(45deg); top: -3px; left: 3px; position: relative; }
+        .nav-icon.open span:nth-child(2) { width: 0; opacity: 0; }
+        .nav-icon.open span:nth-child(3) { transform: rotate(-45deg); top: 16px; left: 3px; position: relative; }
+
+        /* ── Slide navigation panel ── */
+        .backdrop { display: none; position: fixed; width: 100%; height: 100%; z-index: 99; background-color: rgba(0,0,0,0.5); top: 0; left: 0; transition: background-color 0.4s ease; }
         .backdrop.open { display: block; }
-        @media (max-width: 768px) { .hamburger { display: flex; } }
+        .slide-navigation { right: -420px; transition: right 0.4s ease; width: 420px; max-width: 100vw; position: fixed; top: 0; height: 100vh; background: #001d35; z-index: 100; padding: 7rem 3rem 3rem; overflow-y: auto; overflow-x: hidden; }
+        .slide-navigation.open { right: 0; }
+        .slide-navigation .nav-icon { position: absolute; top: 30px; right: 20px; }
+        .slide-nav-section { margin-bottom: 2rem; }
+        .slide-nav-label { color: var(--gold); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid rgba(201,169,110,0.3); }
+        .slide-nav-links { list-style: none; padding: 0; margin: 0; }
+        .slide-nav-links li { border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .slide-nav-links a { display: block; color: rgba(255,255,255,0.85); font-size: 1.05rem; font-weight: 400; letter-spacing: 0.04em; padding: 0.9rem 0; transition: var(--transition); }
+        .slide-nav-links a:hover, .slide-nav-links a.active { color: var(--gold); text-decoration: none; }
+        .slide-nav-contact { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid rgba(201,169,110,0.25); }
+        .slide-nav-contact p { color: rgba(255,255,255,0.55); font-size: 0.88rem; margin-bottom: 0.6rem; }
+        .slide-nav-contact a { color: var(--gold); }
+
+        /* ── Hide desktop nav on mobile ── */
+        @media (max-width: 991px) { nav ul { display: none; } }
+        @media (min-width: 992px) { .nav-icon { display: none; } }
+        @media (max-width: 768px) { .slide-navigation { width: 100%; } }
     </style>
 </head>
 <body>
@@ -165,9 +174,7 @@
             </ul>
         </nav>
         <a href="../contact/index.html" class="btn-cta">Enquire Now</a>
-        <button class="hamburger" id="hamburger" aria-label="Open menu">
-            <span></span><span></span><span></span>
-        </button>
+        <div class="nav-icon" id="navIcon"><span></span><span></span><span></span></div>
     </div>
 </header>
 
@@ -328,33 +335,39 @@
 
 
 <div class="backdrop" id="backdrop"></div>
-<nav class="slide-nav" id="slideNav">
-    <ul>
-                <li><a href="../search/index.html">Buy</a></li>
-                <li><a href="../appraisal/index.html">Sell</a></li>
-                <li><a href="../search/index.html?show_in_sale=true&sold=1">Sold</a></li>
-                <li><a href="../lease/index.html" class="active">Lease</a></li>
-                <li><a href="../projects/index.html">Projects</a></li>
-                <li><a href="../contact/index.html">Contact</a></li>
-    </ul>
+<div class="slide-navigation" id="slideNav">
+    <div class="nav-icon" id="slideClose">
+        <span></span><span></span><span></span>
+    </div>
+    <div class="slide-nav-section">
+        <div class="slide-nav-label">Navigation</div>
+        <ul class="slide-nav-links">
+            <li><a href="../search/index.html">Buy</a></li>
+            <li><a href="../appraisal/index.html">Sell</a></li>
+            <li><a href="../search/index.html?show_in_sale=true&sold=1">Sold</a></li>
+            <li><a href="../lease/index.html" class="active">Lease</a></li>
+            <li><a href="../projects/index.html">Projects</a></li>
+            <li><a href="../contact/index.html">Contact</a></li>
+        </ul>
+    </div>
     <div class="slide-nav-contact">
         <p>📞 <a href="tel:0390288592">03 9028 8592</a></p>
         <p>✉️ <a href="mailto:info@jwc.com.au">info@jwc.com.au</a></p>
+        <p>Shop 1, 209 Toorak Road, South Yarra</p>
     </div>
-</nav>
+</div>
 <script>
-    const hamburger = document.getElementById('hamburger');
-    const slideNav  = document.getElementById('slideNav');
-    const backdrop  = document.getElementById('backdrop');
-    function toggleNav(open) {
-        hamburger.classList.toggle('open', open);
-        slideNav.classList.toggle('open', open);
-        backdrop.classList.toggle('open', open);
-        document.body.style.overflow = open ? 'hidden' : '';
-    }
-    hamburger.addEventListener('click', () => toggleNav(!slideNav.classList.contains('open')));
-    backdrop.addEventListener('click', () => toggleNav(false));
+(function() {
+    var navIcon   = document.getElementById('navIcon');
+    var slideNav  = document.getElementById('slideNav');
+    var slideClose= document.getElementById('slideClose');
+    var backdrop  = document.getElementById('backdrop');
+    function open()  { navIcon.classList.add('open'); slideNav.classList.add('open'); backdrop.classList.add('open'); document.body.style.overflow='hidden'; }
+    function close() { navIcon.classList.remove('open'); slideNav.classList.remove('open'); backdrop.classList.remove('open'); document.body.style.overflow=''; }
+    navIcon.addEventListener('click', open);
+    slideClose.addEventListener('click', close);
+    backdrop.addEventListener('click', close);
+})();
 </script>
-
 </body>
 </html>
