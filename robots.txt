@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php
+
+Sitemap: https://www.jwc.com.au/wp-sitemap.xml
+
+Sitemap: https://www.jwc.com.au/sitemap.xml
