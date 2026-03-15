@@ -118,6 +118,17 @@
         @media (max-width: 991px) { nav ul { display: none; } }
         @media (min-width: 992px) { .nav-icon { display: none; } }
         @media (max-width: 768px) { .slide-navigation { width: 100%; } }
+
+        /* ── Slide nav grid layout ── */
+        .slide-nav-logo { margin-bottom: 2.5rem; }
+        .slide-nav-logo img { height: 38px; width: auto; filter: brightness(0) invert(1); }
+        .slide-nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem 3rem; }
+        .slide-nav-title { color: var(--gold); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 1rem; padding-bottom: 0.6rem; border-bottom: 1px solid rgba(201,169,110,0.25); }
+        .slide-nav-links { list-style: none; padding: 0; margin: 0; }
+        .slide-nav-links li { margin-bottom: 0.1rem; }
+        .slide-nav-links a { display: block; color: rgba(255,255,255,0.8); font-size: 0.95rem; font-weight: 400; padding: 0.5rem 0; transition: var(--transition); border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .slide-nav-links a:hover { color: var(--gold); padding-left: 0.4rem; }
+        @media (max-width: 480px) { .slide-nav-grid { grid-template-columns: 1fr; gap: 1.5rem; } }
     </style>
 </head>
 <body>
@@ -519,24 +530,42 @@
 
 <div class="backdrop" id="backdrop"></div>
 <div class="slide-navigation" id="slideNav">
-    <div class="nav-icon" id="slideClose">
-        <span></span><span></span><span></span>
+    <div class="nav-icon" id="slideClose"><span></span><span></span><span></span></div>
+    <div class="slide-nav-logo">
+        <img src="../wp-content/uploads/sites/274/2023/09/Logo-1.png" alt="JWC Property Group">
     </div>
-    <div class="slide-nav-section">
-        <div class="slide-nav-label">Navigation</div>
-        <ul class="slide-nav-links">
-            <li><a href="../search/index.html" class="active">Buy</a></li>
-            <li><a href="../appraisal/index.html">Sell</a></li>
-            <li><a href="../search/index.html?show_in_sale=true&sold=1">Sold</a></li>
-            <li><a href="../lease/index.html">Lease</a></li>
-            <li><a href="../projects/index.html">Projects</a></li>
-            <li><a href="../contact/index.html">Contact</a></li>
-        </ul>
-    </div>
-    <div class="slide-nav-contact">
-        <p>📞 <a href="tel:0390288592">03 9028 8592</a></p>
-        <p>✉️ <a href="mailto:info@jwc.com.au">info@jwc.com.au</a></p>
-        <p>Shop 1, 209 Toorak Road, South Yarra</p>
+    <div class="slide-nav-grid">
+        <div class="slide-nav-col">
+            <div class="slide-nav-title">Buy</div>
+            <ul class="slide-nav-links">
+                <li><a href="../search/index.html">Properties for sale</a></li>
+                <li><a href="../inspections/index.html">Open for inspection</a></li>
+                <li><a href="../projects/index.html">Current projects</a></li>
+            </ul>
+        </div>
+        <div class="slide-nav-col">
+            <div class="slide-nav-title">Sell</div>
+            <ul class="slide-nav-links">
+                <li><a href="../appraisal/index.html">Request appraisal</a></li>
+                <li><a href="../search/index.html?show_in_sale=true&sold=1">Sold properties</a></li>
+            </ul>
+        </div>
+        <div class="slide-nav-col">
+            <div class="slide-nav-title">Lease</div>
+            <ul class="slide-nav-links">
+                <li><a href="../search/index.html?show_in_rental=true&sold=0">Properties for lease</a></li>
+                <li><a href="../rental-provider/index.html">Lease my property</a></li>
+                <li><a href="../currently-renting/index.html">Current renters</a></li>
+            </ul>
+        </div>
+        <div class="slide-nav-col">
+            <div class="slide-nav-title">About Us</div>
+            <ul class="slide-nav-links">
+                <li><a href="../our-story/index.html">Our Team</a></li>
+                <li><a href="../contact/index.html">Contact us</a></li>
+                <li><a href="../privacy-policy/index.html">Privacy Policy</a></li>
+            </ul>
+        </div>
     </div>
 </div>
 <script>
@@ -545,11 +574,11 @@
     var slideNav  = document.getElementById('slideNav');
     var slideClose= document.getElementById('slideClose');
     var backdrop  = document.getElementById('backdrop');
-    function open()  { navIcon.classList.add('open'); slideNav.classList.add('open'); backdrop.classList.add('open'); document.body.style.overflow='hidden'; }
-    function close() { navIcon.classList.remove('open'); slideNav.classList.remove('open'); backdrop.classList.remove('open'); document.body.style.overflow=''; }
-    navIcon.addEventListener('click', open);
-    slideClose.addEventListener('click', close);
-    backdrop.addEventListener('click', close);
+    function openNav()  { navIcon.classList.add('open'); slideClose.classList.add('open'); slideNav.classList.add('open'); backdrop.classList.add('open'); document.body.style.overflow='hidden'; }
+    function closeNav() { navIcon.classList.remove('open'); slideClose.classList.remove('open'); slideNav.classList.remove('open'); backdrop.classList.remove('open'); document.body.style.overflow=''; }
+    navIcon.addEventListener('click', openNav);
+    slideClose.addEventListener('click', closeNav);
+    backdrop.addEventListener('click', closeNav);
 })();
 </script>
 </body>
