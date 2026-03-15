@@ -86,6 +86,25 @@
 
         @media(max-width:1024px){.contact-grid{grid-template-columns:1fr;gap:3rem;}.grid-4{grid-template-columns:repeat(2,1fr);}.footer-grid{grid-template-columns:repeat(2,1fr);}}
         @media(max-width:768px){nav ul{display:none;}.grid-4{grid-template-columns:1fr;}.footer-grid{grid-template-columns:1fr;}.container{padding:0 20px;}.header-inner{padding:0 20px;}.footer-inner{padding:0 20px;}}
+
+        /* ── Mobile hamburger ── */
+        .hamburger { display: none; flex-direction: column; justify-content: space-between; width: 26px; height: 20px; cursor: pointer; z-index: 1100; }
+        .hamburger span { display: block; height: 2px; width: 100%; background: #fff; border-radius: 2px; transition: all 0.3s ease; }
+        .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+        .hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
+        .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
+        .slide-nav { position: fixed; top: 0; right: -100%; width: 320px; max-width: 100vw; height: 100vh; background: var(--dark); z-index: 1050; padding: 6rem 2.5rem 3rem; transition: right 0.4s cubic-bezier(0.4,0,0.2,1); overflow-y: auto; }
+        .slide-nav.open { right: 0; }
+        .slide-nav ul { list-style: none; padding: 0; }
+        .slide-nav ul li { border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .slide-nav ul a { display: block; color: rgba(255,255,255,0.85); font-size: 1.1rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 1rem 0; transition: var(--transition); }
+        .slide-nav ul a:hover, .slide-nav ul a.active { color: var(--gold); }
+        .slide-nav-contact { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid rgba(201,169,110,0.3); }
+        .slide-nav-contact p { color: rgba(255,255,255,0.55); font-size: 0.9rem; margin-bottom: 0.5rem; }
+        .slide-nav-contact a { color: var(--gold); font-size: 0.9rem; }
+        .backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1040; }
+        .backdrop.open { display: block; }
+        @media (max-width: 768px) { .hamburger { display: flex; } }
     </style>
 </head>
 <body>
@@ -106,6 +125,9 @@
             </ul>
         </nav>
         <a href="../contact/index.html" class="btn-cta">Enquire Now</a>
+        <button class="hamburger" id="hamburger" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
     </div>
 </header>
 
@@ -262,6 +284,36 @@
         </div>
     </div>
 </footer>
+
+
+<div class="backdrop" id="backdrop"></div>
+<nav class="slide-nav" id="slideNav">
+    <ul>
+                <li><a href="../search/index.html">Buy</a></li>
+                <li><a href="../appraisal/index.html">Sell</a></li>
+                <li><a href="../search/index.html?show_in_sale=true&sold=1">Sold</a></li>
+                <li><a href="../lease/index.html">Lease</a></li>
+                <li><a href="../projects/index.html">Projects</a></li>
+                <li><a href="../contact/index.html" class="active">Contact</a></li>
+    </ul>
+    <div class="slide-nav-contact">
+        <p>📞 <a href="tel:0390288592">03 9028 8592</a></p>
+        <p>✉️ <a href="mailto:info@jwc.com.au">info@jwc.com.au</a></p>
+    </div>
+</nav>
+<script>
+    const hamburger = document.getElementById('hamburger');
+    const slideNav  = document.getElementById('slideNav');
+    const backdrop  = document.getElementById('backdrop');
+    function toggleNav(open) {
+        hamburger.classList.toggle('open', open);
+        slideNav.classList.toggle('open', open);
+        backdrop.classList.toggle('open', open);
+        document.body.style.overflow = open ? 'hidden' : '';
+    }
+    hamburger.addEventListener('click', () => toggleNav(!slideNav.classList.contains('open')));
+    backdrop.addEventListener('click', () => toggleNav(false));
+</script>
 
 </body>
 </html>
